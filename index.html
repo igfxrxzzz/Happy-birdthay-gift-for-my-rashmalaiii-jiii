@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --p: #ff4d6d; --s: #ffccd5; --c: #6d4c41; }
-        body { margin: 0; background: #fff0f3; font-family: 'Quicksand', sans-serif; overflow: hidden; text-align: center; color: #444; touch-action: none; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: #fff0f3; font-family: 'Quicksand', sans-serif; overflow: hidden; text-align: center; color: #444; -webkit-user-select: none; user-select: none; }
         h1, h2, h3 { font-family: 'Dancing Script', cursive; color: var(--p); }
 
         .page { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; z-index: 10; }
@@ -20,12 +20,20 @@
 
         .btn { background: var(--p); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; z-index: 20; position: relative; }
         
-        /* FIXED BALLOON TAP LOGIC */
-        .ball { position: absolute; width: 65px; height: 85px; background: var(--p); border-radius: 50%; bottom: -120px; z-index: 9999; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2); animation: up 4s linear forwards; pointer-events: auto; cursor: pointer; }
-        .ball::before { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -20px; border-radius: 50%; } /* Extended hit area */
-        .ball::after { content: ''; position: absolute; bottom: -12px; left: 50%; width: 2px; height: 15px; background: rgba(0,0,0,0.1); }
-        @keyframes up { to { bottom: 115vh; } }
+        /* Level 1: Balloons - SUPER FIXED */
+        .ball { 
+            position: absolute; width: 75px; height: 95px; background: var(--p); 
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; 
+            bottom: -150px; z-index: 9999 !important; 
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2); 
+            animation: up 4.5s linear forwards; 
+            cursor: pointer;
+            touch-action: none;
+        }
+        .ball::after { content: ''; position: absolute; bottom: -12px; left: 50%; width: 2px; height: 18px; background: #666; }
+        @keyframes up { to { bottom: 120vh; } }
 
+        /* Rest of Styles (Unchanged) */
         .grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 12px; z-index: 20; }
         .card { width: 85px; height: 110px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: transparent; cursor: pointer; border: 2px solid var(--s); transition: 0.3s; }
         .card.f { color: initial; border-color: var(--p); background: #fff; transform: rotateY(180deg); }
@@ -57,7 +65,7 @@
     <div id="p0" class="page" style="display: flex;">
         <div class="pookie">🐱💖</div>
         <h1>Surprise for Rasmalai ❤️</h1>
-        <button class="btn" id="startBtn">Start Magic ✨</button>
+        <button class="btn" onclick="start()">Start Magic ✨</button>
     </div>
 
     <div id="p1" class="page">
@@ -157,9 +165,6 @@
             document.querySelectorAll('.page').forEach(p=>p.style.display='none'); 
             document.getElementById(id).style.display='flex'; 
         }
-        
-        document.getElementById('startBtn').addEventListener('touchstart', function(e) { e.preventDefault(); start(); });
-        document.getElementById('startBtn').addEventListener('click', start);
 
         function start() { 
             document.getElementById('mus').play().catch(()=>{});
@@ -169,31 +174,34 @@
 
         let bc = 0;
         function level1() {
-            let i = setInterval(() => {
-                if(bc>=10) { clearInterval(i); return; }
-                let b = document.createElement('div'); 
-                b.className='ball'; 
-                b.style.left=Math.random()*75 + 5 + 'vw';
+            let spawnInterval = setInterval(() => {
+                if(bc >= 10) { clearInterval(spawnInterval); return; }
                 
-                // FIXED EVENT LISTENERS
-                const popMe = (e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    b.remove(); 
-                    bc++; 
-                    document.getElementById('bc').innerText=bc; 
-                    if(bc===10) { 
-                        clearInterval(i); 
+                let b = document.createElement('div'); 
+                b.className = 'ball'; 
+                b.style.left = Math.random() * 70 + 10 + 'vw';
+                
+                // MULTI-ACTION LISTENER
+                const pop = () => {
+                    if (b.getAttribute('data-popped')) return;
+                    b.setAttribute('data-popped', 'true');
+                    b.style.display = 'none';
+                    bc++;
+                    document.getElementById('bc').innerText = bc;
+                    if(bc === 10) { 
+                        clearInterval(spawnInterval); 
                         setTimeout(level2, 500); 
                     }
+                    b.remove();
                 };
 
-                b.addEventListener('touchstart', popMe, {passive: false});
-                b.addEventListener('mousedown', popMe);
-                
+                // Attaching to both for safety
+                b.onpointerdown = pop;
+                b.ontouchstart = (e) => { e.preventDefault(); pop(); };
+
                 document.body.appendChild(b);
-                setTimeout(() => { if(b.parentNode) b.remove(); }, 4000);
-            }, 800);
+                setTimeout(() => { if(b.parentNode) b.remove(); }, 4500);
+            }, 900);
         }
 
         let pairs = 0;
@@ -202,8 +210,7 @@
             const g = document.getElementById('grid'); g.innerHTML='';
             icons.forEach(v => {
                 let c = document.createElement('div'); c.className='card'; c.innerText=v;
-                const flip = (e) => {
-                    e.preventDefault();
+                c.onclick = () => {
                     if(c.classList.contains('f') || c.classList.contains('done')) return;
                     c.classList.add('f'); let fl=document.querySelectorAll('.f:not(.done)');
                     if(fl.length===2) {
@@ -211,8 +218,6 @@
                         else setTimeout(()=>fl.forEach(x=>x.classList.remove('f')), 500);
                     }
                 };
-                c.addEventListener('touchstart', flip);
-                c.addEventListener('click', flip);
                 g.appendChild(c);
             });
         }
@@ -224,16 +229,11 @@
                 let x = e.touches ? e.touches[0].pageX : e.pageX; 
                 cat.style.left=x+'px'; 
             };
-            window.addEventListener('touchmove', move, {passive: false});
-            window.addEventListener('mousemove', move);
+            window.onmousemove = move;
+            window.ontouchmove = (e) => { e.preventDefault(); move(e); };
             
             let i = setInterval(() => {
-                if(hc>=10) { 
-                    clearInterval(i); 
-                    window.removeEventListener('touchmove', move);
-                    window.removeEventListener('mousemove', move);
-                    go('p4'); return; 
-                }
+                if(hc>=10) { clearInterval(i); go('p4'); return; }
                 let h = document.createElement('div'); h.className='ht'; h.innerText='❤️'; h.style.left=Math.random()*90+'vw';
                 document.body.appendChild(h);
                 let check = setInterval(() => {
@@ -263,4 +263,4 @@
         function cut() { document.getElementById('ck_b').classList.add('split'); document.getElementById('b2').style.display='none'; document.getElementById('b3').style.display='block'; document.getElementById('cake_msg').innerText="Yummy! 😍"; }
     </script>
 </body>
-  </html>
+</html>
