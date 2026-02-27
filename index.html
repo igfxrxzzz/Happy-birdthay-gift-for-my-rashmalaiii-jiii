@@ -12,30 +12,36 @@
 
         .page { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; z-index: 10; }
         
+        /* Floating Background */
         .bg-heart { position: absolute; color: var(--p); opacity: 0.2; animation: floatBG 6s infinite linear; z-index: 1; pointer-events: none; }
         @keyframes floatBG { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
 
-        /* Emoji Mix Rain (Bouquet + Flowers) */
-        .emo-rain { position: absolute; font-size: 25px; z-index: 100; pointer-events: none; animation: fallEmo 5s linear forwards; }
-        @keyframes fallEmo { 0% { transform: translateY(-50px) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
+        /* Mix Flower & Bouquet Rain - FIXED */
+        .mix-rain { position: absolute; font-size: 28px; z-index: 1000; pointer-events: none; animation: fallMix 5s linear forwards; }
+        @keyframes fallMix { 0% { transform: translateY(-10vh) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
 
         .firework { position: absolute; width: 6px; height: 6px; border-radius: 50%; z-index: 100; pointer-events: none; }
         @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(25); opacity: 0; } }
 
         .btn { background: var(--p); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; z-index: 20; position: relative; }
         
+        /* Balloons - Tap Fixed */
         .ball { position: absolute; width: 75px; height: 95px; background: var(--p); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; bottom: -150px; z-index: 9999 !important; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2); animation: up 4.5s linear forwards; cursor: pointer; }
         .ball::after { content: ''; position: absolute; bottom: -12px; left: 50%; width: 2px; height: 18px; background: #666; }
         @keyframes up { to { bottom: 120vh; } }
 
+        /* Grid */
         .grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 12px; z-index: 20; }
         .card { width: 85px; height: 110px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: transparent; cursor: pointer; border: 2px solid var(--s); transition: 0.3s; }
         .card.f { color: initial; border-color: var(--p); background: #fff; transform: rotateY(180deg); }
         .card.done { visibility: hidden; }
 
+        /* Catcher */
         #cat { position: absolute; bottom: 20px; width: 110px; height: 55px; background: var(--p); border-radius: 0 0 55px 55px; left: 50%; transform: translateX(-50%); border: 3px solid white; z-index: 20; }
         .ht { position: absolute; font-size: 32px; animation: fall 3s linear forwards; top: -50px; z-index: 15; }
+        @keyframes fall { to { top: 110vh; } }
 
+        /* Envelope */
         .env { width: 300px; height: 170px; background: #ffb7c5; position: relative; border-radius: 0 0 10px 10px; margin-top: 60px; z-index: 20; }
         .env::after { content: ''; position: absolute; top: -90px; left: 0; border-left: 150px solid transparent; border-right: 150px solid transparent; border-bottom: 90px solid #ffb7c5; }
         .let { position: absolute; bottom: 0; left: 10px; right: 10px; background: white; padding: 15px; transition: 1.2s; z-index: -1; min-height: 230px; border-radius: 5px; font-size: 14px; text-align: left; line-height: 1.5; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
@@ -44,13 +50,14 @@
         .pookie { font-size: 50px; margin-bottom: 10px; animation: bounce 1s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-        /* Cake with Candle Fix */
-        .ck-a { position: relative; width: 200px; height: 180px; }
-        .cb { width: 160px; height: 60px; background: var(--c); position: absolute; bottom: 10px; left: 20px; border-radius: 8px; transform: scale(0); transition: 0.5s; }
-        .cc { width: 160px; height: 40px; background: #fff; position: absolute; bottom: 70px; left: 20px; border-radius: 20px; opacity: 0; transition: 0.5s; }
-        .ct { width: 140px; height: 18px; background: var(--p); position: absolute; bottom: 108px; left: 30px; border-radius: 10px; opacity: 0; transition: 0.5s; }
-        .candle-box { position: absolute; bottom: 125px; width: 100%; text-align: center; font-size: 30px; opacity: 0; transition: 0.5s; }
-        .split .cb, .split .cc, .split .ct, .split .candle-box { clip-path: polygon(0 0, 48% 0, 48% 100%, 0 100%); transform: translateX(-25px) rotate(-15deg); }
+        /* Cake & Candle - FIXED */
+        .ck-a { position: relative; width: 200px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+        .cb { width: 160px; height: 60px; background: var(--c); border-radius: 8px; transform: scale(0); transition: 0.5s; border-bottom: 4px solid #4e342e; }
+        .cc { width: 140px; height: 40px; background: #fff; border-radius: 20px; opacity: 0; transition: 0.5s; margin-bottom: -15px; z-index: 2; }
+        .ct { width: 120px; height: 15px; background: var(--p); border-radius: 10px; opacity: 0; transition: 0.5s; margin-bottom: -10px; z-index: 3; }
+        .candle-box { font-size: 35px; opacity: 0; transition: 0.5s; z-index: 4; margin-bottom: -5px; }
+        .split { filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); }
+        .split > div { clip-path: polygon(0 0, 48% 0, 48% 100%, 0 100%); transform: translateX(-20px) rotate(-10deg) !important; }
     </style>
 </head>
 <body>
@@ -118,8 +125,10 @@
         <div class="pookie">🎂😽</div>
         <h2 id="cake_msg">Happy Birthday! 🎂</h2>
         <div class="ck-a" id="ck_b">
-            <div class="cb" id="c1"></div><div class="cc" id="c2"></div><div class="ct" id="c3"></div>
             <div class="candle-box" id="c4">🕯️🕯️🕯️</div>
+            <div class="ct" id="c3"></div>
+            <div class="cc" id="c2"></div>
+            <div class="cb" id="c1"></div>
         </div>
         <button id="b1" class="btn" onclick="bake()">Bake Cake</button>
         <button id="b2" class="btn" style="display:none;" onclick="cut()">Cut Cake 🔪</button>
@@ -129,7 +138,7 @@
     <div id="p6" class="page">
         <div class="pookie">🐱👸❤️</div>
         <h1>Love Youuu! 💗</h1>
-        <div id="final-note" style="background: yellow; padding: 18px; color: black; border-radius: 12px; margin: 15px; font-size: 14px; font-weight: bold; border: 2px dashed red;">
+        <div style="background: yellow; padding: 18px; color: black; border-radius: 12px; margin: 15px; font-size: 14px; font-weight: bold; border: 2px dashed red;">
             Wish You Very Very Happy Birthday Meri Pyariii Rashmalaiiii Jiii Hamesha Mere Sth Rehna Or Kissi Deti Rehna Bina Maange And Last Thing Love Youuu Take Screenshot And Give Me 😚💓🤧💗💓🤧💓😚💗🤧💓
         </div>
         <button class="btn" onclick="location.reload()">Restart 🔄</button>
@@ -145,14 +154,14 @@
         }
         createBG();
 
-        function startCelebration() {
+        function startMixRain() {
             setInterval(() => {
-                const f = document.createElement('div'); f.className='emo-rain';
-                f.innerHTML = ['🌸','💐','🌼','🌹','🌷','🎉','✨'][Math.floor(Math.random()*7)];
+                const f = document.createElement('div'); f.className='mix-rain';
+                f.innerHTML = ['🌸','💐','🌼','🌹','🌷','✨','❤️'][Math.floor(Math.random()*7)];
                 f.style.left = Math.random()*100+'vw';
                 document.body.appendChild(f);
                 setTimeout(()=>f.remove(), 5000);
-            }, 250);
+            }, 200);
         }
 
         function createFirework() {
@@ -229,13 +238,13 @@
         function bake() {
             document.getElementById('b1').style.display='none'; 
             document.getElementById('c1').style.transform='scale(1)';
-            setTimeout(()=>document.getElementById('c2').style.opacity='1', 600);
-            setTimeout(()=>document.getElementById('c3').style.opacity='1', 1100);
-            setTimeout(()=>{ document.getElementById('c4').style.opacity='1'; document.getElementById('b2').style.display='block'; }, 1600);
+            setTimeout(()=>document.getElementById('c2').style.opacity='1', 500);
+            setTimeout(()=>document.getElementById('c3').style.opacity='1', 1000);
+            setTimeout(()=>{ document.getElementById('c4').style.opacity='1'; document.getElementById('b2').style.display='block'; }, 1500);
         }
         function cut() { document.getElementById('ck_b').classList.add('split'); document.getElementById('b2').style.display='none'; document.getElementById('b3').style.display='block'; document.getElementById('cake_msg').innerText="Yummy! 😍"; }
-        function finish() { go('p6'); startCelebration(); }
+        function finish() { go('p6'); startMixRain(); }
     </script>
 </body>
-            </html>
-            
+        </html>
+        
