@@ -2,42 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise for Rasmalai ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Rasmalai ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --p: #ff4d6d; --s: #ffccd5; --c: #6d4c41; }
-        body { margin: 0; background: #fff0f3; font-family: 'Quicksand', sans-serif; overflow: hidden; text-align: center; color: #444; }
+        body { margin: 0; background: #fff0f3; font-family: 'Quicksand', sans-serif; overflow: hidden; text-align: center; color: #444; touch-action: manipulation; }
         h1, h2, h3 { font-family: 'Dancing Script', cursive; color: var(--p); }
 
-        .page { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; z-index: 5; }
+        .page { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; z-index: 10; pointer-events: auto; }
         
         /* Floating Background Hearts */
-        .bg-heart { position: absolute; color: var(--p); opacity: 0.3; animation: floatBG 6s infinite linear; z-index: 1; pointer-events: none; }
+        .bg-heart { position: absolute; color: var(--p); opacity: 0.2; animation: floatBG 6s infinite linear; z-index: 1; pointer-events: none; }
         @keyframes floatBG { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
 
         /* Crackers */
-        .firework { position: absolute; width: 5px; height: 5px; border-radius: 50%; z-index: 10; pointer-events: none; }
-        @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(20); opacity: 0; } }
+        .firework { position: absolute; width: 6px; height: 6px; border-radius: 50%; z-index: 100; pointer-events: none; }
+        @keyframes explode { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(25); opacity: 0; } }
 
-        .btn { background: var(--p); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+        .btn { background: var(--p); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; transition: 0.3s; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); z-index: 20; position: relative; }
         
-        /* Game Elements */
-        .ball { position: absolute; width: 55px; height: 75px; background: var(--p); border-radius: 50%; cursor: pointer; animation: up 4s linear forwards; bottom: -100px; }
+        /* Level 1: Balloons - FIXED TAP ISSUE */
+        .ball { position: absolute; width: 60px; height: 80px; background: var(--p); border-radius: 50%; cursor: pointer; animation: up 4s linear forwards; bottom: -100px; z-index: 999; display: flex; align-items: center; justify-content: center; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2); }
+        .ball::after { content: ''; position: absolute; bottom: -10px; width: 2px; height: 15px; background: rgba(255,255,255,0.5); }
         @keyframes up { to { bottom: 115vh; } }
-        .grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 12px; }
+
+        /* Level 2: Grid */
+        .grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 12px; z-index: 20; }
         .card { width: 85px; height: 110px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: transparent; cursor: pointer; border: 2px solid var(--s); transition: 0.3s; }
         .card.f { color: initial; border-color: var(--p); background: #fff; transform: rotateY(180deg); }
         .card.done { visibility: hidden; }
-        #cat { position: absolute; bottom: 20px; width: 110px; height: 55px; background: var(--p); border-radius: 0 0 55px 55px; left: 50%; transform: translateX(-50%); border: 3px solid white; }
-        .ht { position: absolute; font-size: 32px; animation: fall 3s linear forwards; top: -50px; }
+
+        /* Level 3: Catcher */
+        #cat { position: absolute; bottom: 20px; width: 110px; height: 55px; background: var(--p); border-radius: 0 0 55px 55px; left: 50%; transform: translateX(-50%); border: 3px solid white; z-index: 20; }
+        .ht { position: absolute; font-size: 32px; animation: fall 3s linear forwards; top: -50px; z-index: 15; }
         @keyframes fall { to { top: 110vh; } }
 
         /* Envelope & Letter */
-        .env { width: 300px; height: 170px; background: #ffb7c5; position: relative; border-radius: 0 0 10px 10px; margin-top: 60px; }
+        .env { width: 300px; height: 170px; background: #ffb7c5; position: relative; border-radius: 0 0 10px 10px; margin-top: 60px; z-index: 20; }
         .env::after { content: ''; position: absolute; top: -90px; left: 0; border-left: 150px solid transparent; border-right: 150px solid transparent; border-bottom: 90px solid #ffb7c5; }
-        .let { position: absolute; bottom: 0; left: 10px; right: 10px; background: white; padding: 15px; transition: 1.2s; z-index: -1; min-height: 230px; border-radius: 5px; font-size: 14px; text-align: left; line-height: 1.5; }
-        .let.open { transform: translateY(-250px); z-index: 5; }
+        .let { position: absolute; bottom: 0; left: 10px; right: 10px; background: white; padding: 15px; transition: 1.2s; z-index: -1; min-height: 230px; border-radius: 5px; font-size: 14px; text-align: left; line-height: 1.5; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        .let.open { transform: translateY(-250px); z-index: 50; }
 
         /* Pookie Cats */
         .pookie { font-size: 50px; margin-bottom: 10px; animation: bounce 1s infinite alternate; }
@@ -82,7 +87,7 @@
     <div id="p4" class="page">
         <div class="pookie">🔒✨</div>
         <h2>Secret Code Daalo 🔐</h2>
-        <input type="text" id="pw" placeholder="merirashmalai" style="padding:12px; border-radius:15px; border:2px solid var(--p); outline:none; text-align:center;">
+        <input type="text" id="pw" placeholder="merirashmalai" style="padding:12px; border-radius:15px; border:2px solid var(--p); outline:none; text-align:center; font-family: inherit;">
         <button class="btn" onclick="check()">Unlock 🔓</button>
     </div>
 
@@ -126,7 +131,7 @@
     <div id="p6" class="page">
         <div class="pookie">🐱👸❤️</div>
         <h1>Love Youuu! 💗</h1>
-        <div style="background: yellow; padding: 18px; color: black; border-radius: 12px; margin: 15px; font-size: 14px; font-weight: bold; border: 3px dashed red;">
+        <div style="background: yellow; padding: 18px; color: black; border-radius: 12px; margin: 15px; font-size: 14px; font-weight: bold; border: 2px dashed red;">
             Wish You Very Very Happy Birthday Meri Pyariii Rashmalaiiii Jiii Hamesha Mere Sth Rehna Or Kissi Deti Rehna Bina Maange And Last Thing Love Youuu Take Screenshot And Give Me 😚💓🤧💗💓🤧💓😚💗🤧💓
         </div>
         <button class="btn" onclick="location.reload()">Restart 🔄</button>
@@ -155,16 +160,39 @@
         }
 
         function go(id) { document.querySelectorAll('.page').forEach(p=>p.style.display='none'); document.getElementById(id).style.display='flex'; }
-        function start() { document.getElementById('mus').play().catch(()=>{}); go('p1'); level1(); }
+        
+        function start() { 
+            let m = document.getElementById('mus');
+            m.play().catch(()=>{});
+            go('p1'); 
+            level1(); 
+        }
 
         let bc = 0;
         function level1() {
             let i = setInterval(() => {
                 if(bc>=10) { clearInterval(i); return; }
-                let b = document.createElement('div'); b.className='ball'; b.style.left=Math.random()*80+'vw';
-                b.onclick = () => { b.remove(); bc++; document.getElementById('bc').innerText=bc; if(bc===10) { clearInterval(i); setTimeout(level2, 500); } };
+                let b = document.createElement('div'); 
+                b.className='ball'; 
+                b.style.left=Math.random()*70 + 5 + 'vw';
+                
+                // Direct tap listener for instant response
+                b.addEventListener('touchstart', pop);
+                b.addEventListener('mousedown', pop);
+
+                function pop(e) {
+                    e.preventDefault();
+                    b.remove(); 
+                    bc++; 
+                    document.getElementById('bc').innerText=bc; 
+                    if(bc===10) { 
+                        clearInterval(i); 
+                        setTimeout(level2, 500); 
+                    }
+                }
+                
                 document.body.appendChild(b);
-            }, 800);
+            }, 900);
         }
 
         let pairs = 0;
@@ -187,10 +215,20 @@
         let hc = 0;
         function level3() {
             go('p3'); const cat=document.getElementById('cat');
-            const move = (e) => { let x=e.touches?e.touches[0].pageX:e.pageX; cat.style.left=x+'px'; };
-            window.onmousemove=move; window.ontouchmove=move;
+            const move = (e) => { 
+                let x=e.touches?e.touches[0].pageX:e.pageX; 
+                cat.style.left=x+'px'; 
+            };
+            window.addEventListener('mousemove', move);
+            window.addEventListener('touchmove', move);
+            
             let i = setInterval(() => {
-                if(hc>=10) { clearInterval(i); go('p4'); return; }
+                if(hc>=10) { 
+                    clearInterval(i); 
+                    window.removeEventListener('mousemove', move);
+                    window.removeEventListener('touchmove', move);
+                    go('p4'); return; 
+                }
                 let h = document.createElement('div'); h.className='ht'; h.innerText='❤️'; h.style.left=Math.random()*90+'vw';
                 document.body.appendChild(h);
                 let check = setInterval(() => {
@@ -220,5 +258,5 @@
         function cut() { document.getElementById('ck_b').classList.add('split'); document.getElementById('b2').style.display='none'; document.getElementById('b3').style.display='block'; document.getElementById('cake_msg').innerText="Yummy! 😍"; }
     </script>
 </body>
-    </html>
-                       
+            </html>
+    
