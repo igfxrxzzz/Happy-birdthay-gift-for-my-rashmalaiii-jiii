@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Rasmalai ❤️</title>
+    <style>
+        :root { --pink: #ff4d6d; --soft: #ffccd5; --cake: #6d4c41; }
+        body { margin: 0; background: #fff0f3; font-family: 'Arial Rounded MT Bold', sans-serif; overflow: hidden; text-align: center; touch-action: manipulation; }
+        .section { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%); }
+        .btn { background: var(--pink); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+        
+        /* Level Styles */
+        .balloon { position: absolute; width: 50px; height: 70px; background: var(--pink); border-radius: 50%; cursor: pointer; animation: floatUp 4s linear forwards; bottom: -100px; }
+        @keyframes floatUp { to { bottom: 115vh; } }
+        .grid { display: grid; grid-template-columns: repeat(3, 80px); gap: 10px; }
+        .card { width: 80px; height: 100px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: transparent; cursor: pointer; border: 2px solid var(--soft); }
+        .card.flipped { color: initial; border-color: var(--pink); }
+        .card.matched { visibility: hidden; pointer-events: none; }
+        #catcher { position: absolute; bottom: 20px; width: 100px; height: 50px; background: var(--pink); border-radius: 0 0 50px 50px; left: 50%; transform: translateX(-50%); }
+        .heart { position: absolute; font-size: 30px; animation: fall 3s linear forwards; top: -50px; }
+        @keyframes fall { to { top: 110vh; } }
+
+        /* Envelope */
+        .env { width: 280px; height: 160px; background: #ffb7c5; position: relative; border-radius: 0 0 10px 10px; margin-top: 80px; }
+        .env::after { content: ''; position: absolute; top: -80px; left: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-bottom: 80px solid #ffb7c5; }
+        .let { position: absolute; bottom: 0; left: 10px; right: 10px; background: white; padding: 15px; transition: 1.2s; z-index: -1; min-height: 200px; border-radius: 5px; font-size: 13px; color: #444; text-align: left; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .let.open { transform: translateY(-220px); z-index: 5; }
+
+        /* Cake */
+        .cake-area { position: relative; width: 200px; height: 180px; }
+        .c-base { width: 160px; height: 60px; background: var(--cake); position: absolute; bottom: 10px; left: 20px; border-radius: 10px; transform: scale(0); transition: 0.5s; border-bottom: 6px solid #4e342e; }
+        .c-cream { width: 160px; height: 40px; background: #fff; position: absolute; bottom: 70px; left: 20px; border-radius: 20px; opacity: 0; transition: 0.5s; box-shadow: inset 0 -5px 0 #ffccd5; }
+        .c-top { width: 140px; height: 20px; background: #ff4d6d; position: absolute; bottom: 110px; left: 30px; border-radius: 10px; opacity: 0; transition: 0.5s; }
+        .candles { position: absolute; bottom: 130px; left: 50%; transform: translateX(-50%); font-size: 25px; opacity: 0; transition: 0.5s; }
+        .split .c-base, .split .c-cream, .split .c-top { clip-path: polygon(0 0, 48% 0, 48% 100%, 0 100%); transform: translateX(-25px) rotate(-10deg); }
+    </style>
+</head>
+<body>
+    <audio id="music" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+
+    <div id="s0" class="section" style="display: flex;"><h1>Surprise for Rasmalai ❤️</h1><button class="btn" onclick="begin()">Start Surprise 🎵</button></div>
+    <div id="s1" class="section"><h2>Balloons Phodo (10) 🎈</h2><p>Popped: <span id="bc">0</span>/10</p></div>
+    <div id="s2" class="section"><h2>Match the Pairs 🃏</h2><div class="grid" id="grid"></div></div>
+    <div id="s3" class="section"><h2>Catch 10 Hearts ❤️</h2><p>Caught: <span id="hc">0</span>/10</p><div id="catcher"></div></div>
+    <div id="s4" class="section"><h2>Secret Code Daalo 🔐</h2><input type="text" id="pass" placeholder="MeriRashmalai" style="padding:12px; border-radius:10px; border:2px solid var(--pink);"><button class="btn" onclick="check()">Unlock ✨</button></div>
+    <div id="s_letter" class="section"><div class="env"><div class="let" id="let"><div id="tw"></div><button id="qbtn" class="btn" style="display:none; font-size:12px;" onclick="go('q1')">Next 🐾</button></div></div></div>
+    <div id="q1" class="section"><h3>Gussa Sawal ❤️</h3><p>Jab main gussa hota hoon, mujhe kya chahiye?</p><button class="btn" onclick="alert('Pitegi... 😂')">Thappad</button><button class="btn" onclick="go('q2')">Kiss aur photo 💓</button></div>
+    <div id="q2" class="section"><h3>Eye Contact 👀</h3><p>Agar main ghoorta rahoon, kya karengi?</p><button class="btn" onclick="alert('pitogi kiya... 😂')">Thappad</button><button class="btn" onclick="go('s5')">kiss kar lungi jii 😭💓</button></div>
+    <div id="s5" class="section"><h2 id="msg">Happy Birthday! 🎂</h2><div class="cake-area" id="cakeBox"><div class="c-base" id="cb"></div><div class="c-cream" id="cc"></div><div class="c-top" id="ct"></div><div class="candles" id="can">🕯️🕯️🕯️</div></div><button id="b1" class="btn" onclick="bake()">Bake Cake</button><button id="b2" class="btn" style="display:none;" onclick="cut()">Cut Cake 🔪</button><button id="b3" class="btn" style="display:none;" onclick="go('s6')">Final Surprise ❤️</button></div>
+    <div id="s6" class="section"><h1 style="color: var(--pink);">Love Youuu! 💗</h1><div style="background: yellow; padding: 15px; color: black; border-radius: 10px; margin: 15px; font-size: 14px; font-weight: bold; border: 2px dashed red;">Wish You Very Very Happy Birthday Meri Pyariii Rashmalaiiii Jiii Hamesha Mere Sth Rehna Or Kissi Deti Rehna Bina Maange And Last Thing Love Youuu Take Screenshot And Give Me 😚💓🤧💗💓🤧💓😚💗🤧💓</div><button class="btn" onclick="location.reload()">Restart 🔄</button></div>
+
+    <script>
+        const music = document.getElementById('music');
+        function go(id) { document.querySelectorAll('.section').forEach(s=>s.style.display='none'); document.getElementById(id).style.display='flex'; }
+        function begin() { music.play(); go('s1'); startBalloons(); }
+
+        let bc = 0;
+        function startBalloons() {
+            let bi = setInterval(() => {
+                if(bc >= 10) { clearInterval(bi); startMemory(); return; }
+                let b = document.createElement('div'); b.className='balloon'; b.style.left=Math.random()*80+'vw';
+                b.onclick = () => { b.remove(); bc++; document.getElementById('bc').innerText=bc; if(bc===10) { clearInterval(bi); startMemory(); } };
+                document.body.appendChild(b);
+            }, 800);
+        }
+
+        let mp = 0;
+        function startMemory() {
+            go('s2'); const items = ['🍦','🍦','🍭','🍭','🍫','🍫','🍩','🍩','🧁','🧁','🍒','🍒'];
+            items.sort(()=>0.5-Math.random()); const g = document.getElementById('grid'); g.innerHTML='';
+            items.forEach(v => {
+                let c = document.createElement('div'); c.className='card'; c.dataset.val=v; c.innerText=v;
+                c.onclick = () => {
+                    if(c.classList.contains('flipped') || c.classList.contains('matched')) return;
+                    c.classList.add('flipped'); let fl = document.querySelectorAll('.flipped:not(.matched)');
+                    if(fl.length===2) {
+                        if(fl[0].dataset.val===fl[1].dataset.val) { 
+                            fl.forEach(x=>x.classList.add('matched')); mp++; 
+                            if(mp===6) startCatcher(); // Instant trigger
+                        } else { setTimeout(()=>fl.forEach(x=>x.classList.remove('flipped')), 400); }
+                    }
+                }; g.appendChild(c);
+            });
+        }
+
+        let hc = 0;
+        function startCatcher() {
+            go('s3'); const cat = document.getElementById('catcher');
+            const mv = (e) => { let x = e.touches ? e.touches[0].pageX : e.pageX; cat.style.left = x-50+'px'; };
+            window.onmousemove = mv; window.ontouchmove = mv;
+            let hi = setInterval(() => {
+                if(hc>=10) { clearInterval(hi); go('s4'); return; }
+                let h = document.createElement('div'); h.className='heart'; h.innerText='❤️'; h.style.left=Math.random()*90+'vw'; document.body.appendChild(h);
+                let hit = setInterval(() => {
+                    let r1=h.getBoundingClientRect(), r2=cat.getBoundingClientRect();
+                    if(r1.bottom>r2.top && r1.left<r2.right && r1.right>r2.left) { h.remove(); hc++; document.getElementById('hc').innerText=hc; clearInterval(hit); }
+                }, 10);
+            }, 900);
+        }
+
+        function check() {
+            if(document.getElementById('pass').value.toLowerCase()==='merirashmalai') {
+                go('s_letter'); setTimeout(() => {
+                    document.getElementById('let').classList.add('open');
+                    let t = "Happy Birthday to the sweetest Rasmalai in the world! 🎈\n\nAaj tumhara din hai, toh khub enjoy karna aur hamesha aise hi chamakti rehna. Main bas yehi wish karta hoon ki tumhari life ki mithas hamesha bani rahe aur tum hamesha khush raho.\n\nTum jaisi bhi ho, bilkul perfect ho. Have a blockbuster birthday and stay as amazing as you are! ❤️✨";
+                    let i=0; function tp() { if(i<t.length){ 
+                        let char = t.charAt(i); document.getElementById('tw').innerHTML += char === '\n' ? '<br>' : char;
+                        i++; setTimeout(tp,30); 
+                    } else document.getElementById('qbtn').style.display='inline-block'; } tp();
+                }, 1000);
+            } else alert("Galat Code! 😉");
+        }
+
+        function bake() {
+            document.getElementById('b1').style.display='none'; document.getElementById('cb').style.transform='scale(1)';
+            setTimeout(()=>document.getElementById('cc').style.opacity='1', 600);
+            setTimeout(()=>document.getElementById('ct').style.opacity='1', 1000);
+            setTimeout(()=>{ document.getElementById('can').style.opacity='1'; document.getElementById('b2').style.display='block'; }, 1500);
+        }
+        function cut() { document.getElementById('cakeBox').classList.add('split'); document.getElementById('b2').style.display='none'; document.getElementById('b3').style.display='block'; document.getElementById('msg').innerText="Chocolate Strawberry Cake! 😍"; }
+    </script>
+</body>
+</html>
