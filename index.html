@@ -12,8 +12,8 @@
 
         .page { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; z-index: 10; }
         
-        /* 3-2-1 Countdown Overlay for Cake */
-        #count-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255,240,243,0.9); display: none; align-items: center; justify-content: center; font-size: 120px; color: var(--p); font-weight: bold; z-index: 10000; }
+        /* Fixed Countdown Overlay */
+        #cake-timer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,240,243,0.95); display: none; align-items: center; justify-content: center; font-size: 150px; color: var(--p); font-weight: 800; z-index: 99999; }
 
         .bg-heart { position: absolute; color: var(--p); opacity: 0.2; animation: floatBG 6s infinite linear; z-index: 1; pointer-events: none; }
         @keyframes floatBG { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-10vh) rotate(360deg); } }
@@ -23,11 +23,11 @@
 
         .btn { background: var(--p); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; z-index: 20; position: relative; }
         
-        .ball { position: absolute; width: 75px; height: 95px; background: var(--p); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; bottom: -150px; z-index: 9999 !important; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2); animation: up 4.5s linear forwards; cursor: pointer; }
+        .ball { position: absolute; width: 75px; height: 95px; background: var(--p); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; bottom: -150px; z-index: 9999; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2); animation: up 4.5s linear forwards; }
         .ball::after { content: ''; position: absolute; bottom: -12px; left: 50%; width: 2px; height: 18px; background: #666; }
         @keyframes up { to { bottom: 120vh; } }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 12px; z-index: 20; }
+        .grid { display: grid; grid-template-columns: repeat(3, 85px); gap: 12px; }
         .card { width: 85px; height: 110px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: transparent; cursor: pointer; border: 2px solid var(--s); transition: 0.3s; }
         .card.f { color: initial; border-color: var(--p); background: #fff; transform: rotateY(180deg); }
         .card.done { visibility: hidden; }
@@ -43,9 +43,9 @@
         .pookie { font-size: 50px; margin-bottom: 10px; animation: bounce 1s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-        /* Cake & Candle Style */
+        /* Cake with Candle Fix */
         .ck-a { position: relative; width: 200px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
-        .cb { width: 160px; height: 60px; background: var(--c); border-radius: 8px; transform: scale(0); transition: 0.5s; border-bottom: 4px solid #4e342e; }
+        .cb { width: 160px; height: 60px; background: var(--c); border-radius: 8px; transform: scale(0); transition: 0.5s; }
         .cc { width: 140px; height: 40px; background: #fff; border-radius: 20px; opacity: 0; transition: 0.5s; margin-bottom: -15px; z-index: 2; }
         .ct { width: 120px; height: 15px; background: var(--p); border-radius: 10px; opacity: 0; transition: 0.5s; margin-bottom: -10px; z-index: 3; }
         .candle-box { font-size: 35px; opacity: 0; transition: 0.5s; z-index: 4; margin-bottom: -5px; }
@@ -53,7 +53,7 @@
     </style>
 </head>
 <body>
-    <div id="count-overlay">3</div>
+    <div id="cake-timer"></div>
     <div id="bg-container"></div>
     <audio id="mus" loop><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
 
@@ -68,51 +68,13 @@
         <p>Popped: <span id="bc" style="font-weight: bold; color: var(--p);">0</span>/10</p>
     </div>
 
-    <div id="p2" class="page">
-        <div class="pookie">🐾🍭</div>
-        <h2>Match the Pairs 🃏</h2>
-        <div class="grid" id="grid"></div>
-    </div>
-
-    <div id="p3" class="page">
-        <div class="pookie">🐱🎀</div>
-        <h2>Catch 10 Hearts ❤️</h2>
-        <p>Caught: <span id="hc" style="font-weight: bold; color: var(--p);">0</span>/10</p>
-        <div id="cat"></div>
-    </div>
-
-    <div id="p4" class="page">
-        <div class="pookie">🔒✨</div>
-        <h2>Secret Code Daalo 🔐</h2>
-        <input type="text" id="pw" placeholder="merirashmalai" style="padding:12px; border-radius:15px; border:2px solid var(--p); outline:none; text-align:center;">
-        <button class="btn" onclick="check()">Unlock 🔓</button>
-    </div>
-
-    <div id="p_let" class="page">
-        <div class="env">
-            <div class="let" id="let_box">
-                <div class="pookie">🐱💌</div>
-                <div id="msg_box"></div>
-                <button id="nxt_q" class="btn" style="display:none; font-size: 0.8rem;" onclick="go('q1')">Next ❤️</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="q1" class="page">
-        <div class="pookie">😤💖</div>
-        <h2>Gussa Sawal ❤️</h2>
-        <p>Jab main gussa hota hoon, mujhe kya chahiye?</p>
-        <button class="btn" onclick="alert('Pitegi... 😂')">Thappad</button>
-        <button class="btn" onclick="go('q2')">Kiss aur photo 💓</button>
-    </div>
-
-    <div id="q2" class="page">
-        <div class="pookie">👀💕</div>
-        <h2>Eye Contact 👀</h2>
-        <p>Agar main ghoorta rahoon, kya karengi?</p>
-        <button class="btn" onclick="alert('pitogi kiya... 😂')">Thappad</button>
-        <button class="btn" onclick="go('p5')">kiss kar lungi jii 😭💓</button>
-    </div>
+    <div id="p2" class="page"><div class="pookie">🐾🍭</div><h2>Match the Pairs 🃏</h2><div class="grid" id="grid"></div></div>
+    <div id="p3" class="page"><div class="pookie">🐱🎀</div><h2>Catch 10 Hearts ❤️</h2><p>Caught: <span id="hc" style="font-weight: bold; color: var(--p);">0</span>/10</p><div id="cat"></div></div>
+    <div id="p4" class="page"><div class="pookie">🔒✨</div><h2>Secret Code Daalo 🔐</h2><input type="text" id="pw" placeholder="merirashmalai" style="padding:12px; border-radius:15px; border:2px solid var(--p); text-align:center;"><button class="btn" onclick="check()">Unlock 🔓</button></div>
+    
+    <div id="p_let" class="page"><div class="env"><div class="let" id="let_box"><div class="pookie">🐱💌</div><div id="msg_box"></div><button id="nxt_q" class="btn" style="display:none; font-size: 0.8rem;" onclick="go('q1')">Next ❤️</button></div></div></div>
+    <div id="q1" class="page"><h2>Gussa Sawal ❤️</h2><p>Jab main gussa hota hoon, mujhe kya chahiye?</p><button class="btn" onclick="alert('Pitegi... 😂')">Thappad</button><button class="btn" onclick="go('q2')">Kiss aur photo 💓</button></div>
+    <div id="q2" class="page"><h2>Eye Contact 👀</h2><p>Agar main ghoorta rahoon, kya karengi?</p><button class="btn" onclick="alert('pitogi kiya... 😂')">Thappad</button><button class="btn" onclick="go('p5')">kiss kar lungi jii 😭💓</button></div>
 
     <div id="p5" class="page">
         <div class="pookie">🎂😽</div>
@@ -123,7 +85,7 @@
             <div class="cc" id="c2"></div>
             <div class="cb" id="c1"></div>
         </div>
-        <button id="b1" class="btn" onclick="startCakeCountdown()">Bake Cake</button>
+        <button id="b1" class="btn" onclick="cakeCountdown()">Bake Cake</button>
         <button id="b2" class="btn" style="display:none;" onclick="cut()">Cut Cake 🔪</button>
         <button id="b3" class="btn" style="display:none;" onclick="finish()">Final ❤️</button>
     </div>
@@ -155,10 +117,10 @@
             let spawn = setInterval(() => {
                 if(bc >= 10) { clearInterval(spawn); return; }
                 let b = document.createElement('div'); b.className = 'ball'; b.style.left = Math.random()*70+10+'vw';
-                let popped = false;
+                let active = true;
                 const pop = (e) => { 
                     e.preventDefault(); 
-                    if(!popped) { popped = true; b.remove(); bc++; document.getElementById('bc').innerText=bc; if(bc===10){ clearInterval(spawn); setTimeout(level2, 500); } }
+                    if(active) { active = false; b.remove(); bc++; document.getElementById('bc').innerText=bc; if(bc===10){ clearInterval(spawn); setTimeout(level2, 500); } }
                 };
                 b.onpointerdown = pop; b.ontouchstart = pop;
                 document.body.appendChild(b);
@@ -166,10 +128,9 @@
             }, 900);
         }
 
-        let pairs = 0;
         function level2() {
             go('p2'); const icons=['🍭','🍭','🍫','🍫','🍩','🍩','🍦','🍦','🧁','🧁','🍒','🍒'].sort(()=>0.5-Math.random());
-            const g = document.getElementById('grid'); g.innerHTML='';
+            const g = document.getElementById('grid'); g.innerHTML=''; let pairs=0;
             icons.forEach(v => {
                 let c = document.createElement('div'); c.className='card'; c.innerText=v;
                 c.onclick = () => {
@@ -183,9 +144,8 @@
             });
         }
 
-        let hc = 0;
         function level3() {
-            go('p3'); const cat=document.getElementById('cat');
+            go('p3'); const cat=document.getElementById('cat'); let hc=0;
             const move = (e) => { let x = e.touches ? e.touches[0].pageX : e.pageX; cat.style.left=x+'px'; };
             window.onmousemove = move; window.ontouchmove = (e)=>{ e.preventDefault(); move(e); };
             let i = setInterval(() => {
@@ -203,25 +163,28 @@
             if(document.getElementById('pw').value.toLowerCase()==='merirashmalai') { go('p_let');
                 setTimeout(() => {
                     document.getElementById('let_box').classList.add('open');
-                    let t = "Happy Birthday to the sweetest Rasmalai in the world! 🎈\n\nAaj tumhara din hai, toh khub enjoy karna aur hamesha aise hi chamakti rehna. Main bas yehi wish karta hoon ki tumhari life ki mithas hamesha bani rahe aur tum hamesha khush raho.\n\nTum jaisi bhi ho, bilkul perfect ho. Have a blockbuster birthday and stay as amazing as you are! ❤️✨";
+                    let t = "Happy Birthday to the sweetest Rasmalai in the world! 🎈\n\nAaj tumhara din hai, toh khub enjoy karna aur hamesha aise hi chamakti rehna. Main bas yehi wish karta hoon ki tumhari life ki mithas hamesha bani rahe aur tum hamesha khush raho.\n\nTum jaisi bhi ho, bilkul perfect ho. ❤️✨";
                     let i=0; function type() { if(i<t.length){ document.getElementById('msg_box').innerHTML += t.charAt(i)==='\n'?'<br>':t.charAt(i); i++; setTimeout(type,35); } else document.getElementById('nxt_q').style.display='inline-block'; } type();
                 }, 1000);
             } else alert("Galat Code hai Pookie! 😉");
         }
 
-        function startCakeCountdown() {
+        // PHYSICAL COUNTDOWN FUNCTION
+        function cakeCountdown() {
             document.getElementById('b1').style.display = 'none';
-            const overlay = document.getElementById('count-overlay');
-            overlay.style.display = 'flex';
-            let c = 3;
-            overlay.innerText = c;
-            let timer = setInterval(() => {
-                c--;
-                if(c > 0) overlay.innerText = c;
-                else {
-                    clearInterval(timer);
-                    overlay.style.display = 'none';
-                    bake();
+            const timerDiv = document.getElementById('cake-timer');
+            timerDiv.style.display = 'flex';
+            let count = 3;
+            timerDiv.innerText = count;
+            
+            let interval = setInterval(() => {
+                count--;
+                if(count > 0) {
+                    timerDiv.innerText = count;
+                } else {
+                    clearInterval(interval);
+                    timerDiv.style.display = 'none';
+                    bake(); // Now bake the cake
                 }
             }, 1000);
         }
@@ -235,7 +198,8 @@
 
         function cut() { document.getElementById('ck_b').classList.add('split'); document.getElementById('b2').style.display='none'; document.getElementById('b3').style.display='block'; document.getElementById('cake_msg').innerText="Yummy! 😍"; }
         
-        function finish() { go('p6'); 
+        function finish() { 
+            go('p6'); 
             setInterval(() => {
                 const f = document.createElement('div'); f.className='mix-rain';
                 f.innerHTML = ['🌸','💐','🌼','🌹','🌷','✨','❤️'][Math.floor(Math.random()*7)];
