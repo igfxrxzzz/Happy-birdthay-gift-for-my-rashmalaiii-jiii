@@ -12,7 +12,7 @@
 
         .page { display: none; width: 100vw; height: 100vh; position: absolute; align-items: center; justify-content: center; flex-direction: column; z-index: 10; }
         
-        /* 3-2-1 Overlay */
+        /* 3-2-1 Countdown */
         #cake-timer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,240,243,0.95); display: none; align-items: center; justify-content: center; font-size: 150px; color: var(--p); font-weight: 800; z-index: 99999; }
 
         .bg-heart { position: absolute; color: var(--p); opacity: 0.2; animation: floatBG 6s infinite linear; z-index: 1; pointer-events: none; }
@@ -24,7 +24,7 @@
 
         .btn { background: var(--p); color: white; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; font-weight: bold; margin: 10px; z-index: 20; position: relative; }
         
-        /* Balloon Styling */
+        /* Balloon */
         .ball { position: absolute; width: 75px; height: 95px; background: var(--p); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; bottom: -150px; z-index: 9999; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.2); animation: up 4.5s linear forwards; }
         .ball::after { content: ''; position: absolute; bottom: -12px; left: 50%; width: 2px; height: 18px; background: #666; }
         @keyframes up { to { bottom: 120vh; } }
@@ -34,10 +34,10 @@
         .card.f { color: initial; border-color: var(--p); background: #fff; transform: rotateY(180deg); }
         .card.done { visibility: hidden; }
 
-        /* Heart Game FIX */
+        /* Heart Game Fix */
         #cat { position: absolute; bottom: 20px; width: 110px; height: 55px; background: var(--p); border-radius: 0 0 55px 55px; left: 50%; transform: translateX(-50%); border: 3px solid white; z-index: 20; }
-        .ht { position: absolute; font-size: 32px; animation: heartFall 3s linear forwards; top: -50px; z-index: 15; }
-        @keyframes heartFall { 
+        .ht { position: absolute; font-size: 32px; animation: heartFalling 3s linear forwards; top: -50px; z-index: 15; }
+        @keyframes heartFalling { 
             0% { top: -50px; }
             100% { top: 110vh; }
         }
@@ -50,7 +50,7 @@
         .pookie { font-size: 50px; margin-bottom: 10px; animation: bounce 1s infinite alternate; }
         @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-        /* Cake Styling */
+        /* Cake & Candles */
         .ck-a { position: relative; width: 200px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
         .cb { width: 160px; height: 60px; background: var(--c); border-radius: 8px; transform: scale(0); transition: 0.5s; }
         .cc { width: 140px; height: 40px; background: #fff; border-radius: 20px; opacity: 0; transition: 0.5s; margin-bottom: -15px; z-index: 2; }
@@ -168,14 +168,16 @@
             go('p3'); const cat=document.getElementById('cat'); let hc=0;
             const move = (e) => { let x = e.touches ? e.touches[0].pageX : e.pageX; cat.style.left=x+'px'; };
             window.onmousemove = move; window.ontouchmove = (e)=>{ e.preventDefault(); move(e); };
-            let i = setInterval(() => {
-                if(hc>=10) { clearInterval(i); setTimeout(() => go('p4'), 500); return; }
+            let spawnHearts = setInterval(() => {
+                if(hc>=10) { clearInterval(spawnHearts); setTimeout(() => go('p4'), 500); return; }
                 let h = document.createElement('div'); h.className='ht'; h.innerText='❤️'; h.style.left=Math.random()*90+'vw';
                 document.body.appendChild(h);
-                let check = setInterval(() => {
+                let checkCatch = setInterval(() => {
                     let r1=h.getBoundingClientRect(), r2=cat.getBoundingClientRect();
-                    if(r1.bottom>r2.top && r1.left<r2.right && r1.right>r2.left) { h.remove(); hc++; document.getElementById('hc').innerText=hc; clearInterval(check); }
-                    if(r1.top > window.innerHeight) { h.remove(); clearInterval(check); }
+                    if(r1.bottom>r2.top && r1.left<r2.right && r1.right>r2.left) { 
+                        h.remove(); hc++; document.getElementById('hc').innerText=hc; clearInterval(checkCatch); 
+                    }
+                    if(r1.top > window.innerHeight) { h.remove(); clearInterval(checkCatch); }
                 }, 10);
             }, 1000);
         }
@@ -184,7 +186,7 @@
             if(document.getElementById('pw').value.toLowerCase()==='merirashmalai') { go('p_let');
                 setTimeout(() => {
                     document.getElementById('let_box').classList.add('open');
-                    let t = "Happy Birthday to the sweetest Rasmalai in the world! 🎈\n\nAaj tumhara din hai, toh khub enjoy karna aur hamesha aise hi chamakti rehna. Main bas yehi wish karta hoon ki tumhari life ki mithas hamesha bani rahe aur tum hamesha khush raho. ❤️✨";
+                    let t = "Happy Birthday to the sweetest Rasmalai in the world! 🎈\n\nAaj tumhara din hai, toh khub enjoy karna aur hamesha aise hi chamakti rehna. ❤️✨";
                     let i=0; function type() { if(i<t.length){ document.getElementById('msg_box').innerHTML += t.charAt(i)==='\n'?'<br>':t.charAt(i); i++; setTimeout(type,35); } else document.getElementById('nxt_q').style.display='inline-block'; } type();
                 }, 1000);
             } else alert("Galat Code hai Pookie! 😉");
@@ -204,23 +206,4 @@
 
         function bake() {
             document.getElementById('c1').style.transform='scale(1)';
-            setTimeout(()=>document.getElementById('c2').style.opacity='1', 500);
-            setTimeout(()=>document.getElementById('c3').style.opacity='1', 1000);
-            setTimeout(()=>{ document.getElementById('c4').style.opacity='1'; document.getElementById('b2').style.display='block'; }, 1500);
-        }
-
-        function cut() { document.getElementById('ck_b').classList.add('split'); document.getElementById('b2').style.display='none'; document.getElementById('b3').style.display='block'; document.getElementById('cake_msg').innerText="Yummy! 😍"; }
-        
-        function finish() { go('p6'); 
-            setInterval(() => {
-                const f = document.createElement('div'); f.className='mix-rain';
-                f.innerHTML = ['🌸','💐','🌼','🌹','🌷','✨','❤️'][Math.floor(Math.random()*7)];
-                f.style.left = Math.random()*100+'vw';
-                document.body.appendChild(f);
-                setTimeout(()=>f.remove(), 5000);
-            }, 200);
-        }
-    </script>
-</body>
-  </html>
-      
+            setTimeout(()=>document.getElementById('c2').
