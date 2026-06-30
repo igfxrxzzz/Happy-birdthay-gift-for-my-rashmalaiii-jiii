@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For My Rasmalai ❤️</title>
+    <title>For My Aafiii ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root { --p: #ff4d6d; --s: #ffccd5; --c: #6d4c41; }
@@ -59,7 +59,7 @@
 
     <div id="p0" class="page" style="display: flex;">
         <div class="pookie">🐱💖</div>
-        <h1>Surprise for Rasmalai ❤️</h1>
+        <h1>Surprise for Aafiii ❤️</h1>
         <button class="btn" id="startBtn" onclick="startTheMagic()">Start Magic ✨</button>
     </div>
 
@@ -68,10 +68,10 @@
     <div id="p3" class="page"><div class="pookie">🐱🎀</div><h2>Catch 10 Hearts ❤️</h2><p>Caught: <span id="hc" style="font-weight: bold; color: var(--p);">0</span>/10</p><div id="cat"></div></div>
     <div id="p4" class="page"><div class="pookie">🔒✨</div><h2>Secret Code Daalo 🔐</h2><input type="text" id="pw" placeholder="merirashmalai" style="padding:12px; border-radius:15px; border:2px solid var(--p); text-align:center;"><button class="btn" onclick="verifyCode()">Unlock 🔓</button></div>
     <div id="p_let" class="page"><div class="env"><div class="let" id="let_box"><div class="pookie">🐱💌</div><div id="msg_box"></div><button id="nxt_q" class="btn" style="display:none; font-size: 0.8rem;" onclick="go('q1')">Next ❤️</button></div></div></div>
-    <div id="q1" class="page"><h2>Gussa Sawal ❤️</h2><p>Jab main gussa hota hoon, mujhe kya chahiye?</p><button class="btn" onclick="alert('Pitegi... 😂')">Thappad</button><button class="btn" onclick="go('q2')">Kiss aur photo 💓</button></div>
-    <div id="q2" class="page"><h2>Eye Contact 👀</h2><p>Agar main ghoorta rahoon, kya karengi?</p><button class="btn" onclick="alert('pitogi kiya... 😂')">Thappad</button><button class="btn" onclick="go('p5')">kiss kar lungi jii 😭💓</button></div>
+    <div id="q1" class="page"><h2>Ek Sawal ❤️</h2><p>Jab main gussa hota hoon, toh kya chahiye?</p><button class="btn" onclick="alert('Galat jawab! 😉')">Chocolate</button><button class="btn" onclick="go('q2')">Baat maano meri 💓</button></div>
+    <div id="q2" class="page"><h2>Ek Aur Sawal 👀</h2><p>Mere saath hamesha rahogi na?</p><button class="btn" onclick="alert('Socho phir se... 😂')">Maybe</button><button class="btn" onclick="go('p5')">Hamesha! 😭💓</button></div>
     <div id="p5" class="page"><div class="pookie">🎂😽</div><h2 id="cake_msg">Happy Birthday! 🎂</h2><div class="ck-a" id="ck_b"><div class="candle-box" id="c4">🕯️🕯️🕯️</div><div class="ct" id="c3"></div><div class="cc" id="c2"></div><div class="cb" id="c1"></div></div><button id="b1" class="btn" onclick="runCakeCountdown()">Bake Cake</button><button id="b2" class="btn" style="display:none;" onclick="cutTheCake()">Cut Cake 🔪</button><button id="b3" class="btn" style="display:none;" onclick="showFinal()">Final ❤️</button></div>
-    <div id="p6" class="page"><h1>Love Youuu! 💗</h1><div style="background: yellow; padding: 18px; color: black; border-radius: 12px; margin: 15px; font-size: 14px; font-weight: bold; border: 2px dashed red;">Wish You Very Very Happy Birthday Meri Pyariii Rashmalaiiii Jiii Hamesha Mere Sth Rehna Or Kissi Deti Rehna Bina Maange And Last Thing Love Youuu Take Screenshot And Give Me 😚💓</div><button class="btn" onclick="location.reload()">Restart 🔄</button></div>
+    <div id="p6" class="page"><h1>Happy Birthday! 💗</h1><div style="background: yellow; padding: 18px; color: black; border-radius: 12px; margin: 15px; font-size: 14px; font-weight: bold; border: 2px dashed red;">Wish You Very Very Happy Birthday Meri Pyariii Aafiii Jiii. Hamesha aise hi khush raho aur muskurati raho. Take Screenshot And Send It To Me! 😚💓</div><button class="btn" onclick="location.reload()">Restart 🔄</button></div>
 
     <script>
         function createBG() {
@@ -88,7 +88,7 @@
         function startTheMagic() { 
             let m = document.getElementById('mus');
             m.play().then(() => { go('p1'); playBalloons(); })
-            .catch(() => { go('p1'); playBalloons(); }); // Fallback if audio fails
+            .catch(() => { go('p1'); playBalloons(); }); 
         }
 
         function playBalloons() {
@@ -157,7 +157,7 @@
                 go('p_let');
                 setTimeout(() => {
                     document.getElementById('let_box').classList.add('open');
-                    let t = "Happy Birthday to the sweetest Rasmalai in the world! 🎈\n\nAaj tumhara din hai, toh khub enjoy karna aur hamesha aise hi chamakti rehna. ❤️✨";
+                    let t = "Happy Birthday to my lovely Aafiii! 🎈\n\nAaj tumhara din hai, khub enjoy karo aur hamesha aise hi muskurati raho. ❤️✨";
                     let i=0; let box = document.getElementById('msg_box'); box.innerHTML = "";
                     function type() { if(i<t.length){ box.innerHTML += t.charAt(i)==='\n'?'<br>':t.charAt(i); i++; setTimeout(type,40); } else document.getElementById('nxt_q').style.display='inline-block'; } type();
                 }, 1000);
@@ -195,5 +195,4 @@
         }
     </script>
 </body>
-                                                                                                                                                                                                                                                                           </html>
-        
+</html>
